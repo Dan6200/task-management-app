@@ -1,15 +1,14 @@
-//cspell:ignore firestore
+//cspell:ignore firestore nextjs
 import { types, Instance, SnapshotIn, onSnapshot } from "mobx-state-tree";
 import {
-  collection,
-  addDoc,
-  getDocs,
-  doc,
-  updateDoc,
-  deleteDoc,
-} from "firebase/firestore";
+  collectionWrapper,
+  addDocWrapper,
+  getDocsWrapper,
+  docWrapper,
+  updateDocWrapper,
+  deleteDocWrapper,
+} from "./FireStore";
 import db from "./db";
-import { useClerk } from "@clerk/nextjs";
 
 export const TaskModel = types.model("Task", {
   id: types.identifier,
@@ -18,7 +17,17 @@ export const TaskModel = types.model("Task", {
   status: types.string,
 });
 
-const { user } = useClerk();
+let userId: string | null = "blablabla";
+
+// const getUser = async () => {
+//   if (typeof window !== undefined) {
+//     ({ userId } = await fetch("http://localhost:3000/user") // error occurs here!
+//       .then((res) => res.json())
+//       .then((res) => res));
+//   }
+// };
+
+console.log("user Id", userId);
 
 export const TaskStore = types
   .model("TaskStore", {
@@ -28,8 +37,8 @@ export const TaskStore = types
     return {
       addTask(task: SnapshotIn<typeof TaskModel> | Instance<typeof TaskModel>) {
         self.tasks.push(task);
-        if (user) {
-          addDoc(collection(db, "users", user.id, "tasks"), task);
+        if (userId) {
+          addDocWrapper(collectionWrapper(db, "users", userId, "tasks"), task);
         }
       },
       editTask(
@@ -41,8 +50,11 @@ export const TaskStore = types
           task.title = editedTask.title;
           task.description = editedTask.description;
           task.status = editedTask.status;
-          if (user) {
-            updateDoc(doc(db, "users", user.id, "tasks", id), editedTask);
+          if (userId) {
+            updateDocWrapper(
+              docWrapper(db, "users", userId, "tasks", id),
+              editedTask
+            );
           }
         }
       },
@@ -50,8 +62,8 @@ export const TaskStore = types
         const taskIndex = self.tasks.findIndex((task) => task.id === taskId);
         if (taskIndex !== -1) {
           self.tasks.splice(taskIndex, 1);
-          if (user) {
-            deleteDoc(doc(db, "users", user.id, "tasks", taskId));
+          if (userId) {
+            deleteDocWrapper(docWrapper(db, "users", userId, "tasks", taskId));
           }
         }
       },
@@ -63,7 +75,7 @@ export const TaskStore = types
 let tasksFromLocalStorage: any = [];
 let tasksFromFirestore: any = [];
 if (typeof window !== "undefined") {
-  if (user == null) {
+  if (!userId) {
     const tasksJSON = localStorage.getItem("taskStore");
     if (tasksJSON) {
       try {
@@ -73,16 +85,18 @@ if (typeof window !== "undefined") {
       }
     }
   } else {
-    getDocs(collection(db, "users", user.id, "tasks")).then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        tasksFromFirestore.push(doc.data());
-      });
-    });
+    getDocsWrapper(collectionWrapper(db, "users", userId, "tasks")).then(
+      (querySnapshot: any) => {
+        querySnapshot.forEach((doc: any) => {
+          tasksFromFirestore.push(doc.data());
+        });
+      }
+    );
   }
 }
 
-let taskStore = null;
-if (user) {
+export let taskStore: any = null;
+if (userId) {
   taskStore = TaskStore.create({
     tasks: tasksFromFirestore,
   });
@@ -99,12 +113,15 @@ export function updateTaskStoreWithSnapshot(snapshot: any) {
 
 // Save tasks to local storage whenever a change occurs
 // If logged in, save tasks to Firestore under the current user's document whenever a change occurs
-if (typeof window !== "undefined") {
-  onSnapshot(taskStore, (snapshot) => {
+if (typeof window == "undefined") {
+  onSnapshot(taskStore, (snapshot: any) => {
     localStorage.setItem("taskStore", JSON.stringify(snapshot));
-    if (user) {
+    if (userId) {
       snapshot.tasks.forEach((task: any) => {
-        updateDoc(doc(db, "users", user.id, "tasks", task.id), task);
+        updateDocWrapper(
+          docWrapper(db, "users", userId, "tasks", task.id),
+          task
+        );
       });
     }
   });

@@ -1,0 +1,54 @@
+[debug] [2024-04-25T11:57:15.043Z] ----------------------------------------------------------------------
+[debug] [2024-04-25T11:57:15.047Z] Command:       /home/darealestniqqa/.nvm/versions/node/v18.15.0/bin/node /home/darealestniqqa/dev-projects/task-management-app/node_modules/firebase-tools/lib/bin/firebase.js init
+[debug] [2024-04-25T11:57:15.048Z] CLI Version:   13.7.4
+[debug] [2024-04-25T11:57:15.049Z] Platform:      linux
+[debug] [2024-04-25T11:57:15.049Z] Node Version:  v18.15.0
+[debug] [2024-04-25T11:57:15.050Z] Time:          Thu Apr 25 2024 12:57:15 GMT+0100 (West Africa Standard Time)
+[debug] [2024-04-25T11:57:15.050Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-04-25T11:57:15.059Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-04-25T11:57:15.061Z] > authorizing via signed-in user (danielnyong66@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  /home/darealestniqqa/dev-projects/task-management-app
+
+[debug] [2024-04-25T11:57:23.765Z] Error: Timed out.
+    at Timeout._onTimeout (/home/darealestniqqa/dev-projects/task-management-app/node_modules/.pnpm/firebase-tools@13.7.4/node_modules/firebase-tools/lib/utils.js:261:49)
+    at listOnTimeout (node:internal/timers:569:17)
+    at process.processTimers (node:internal/timers:512:7)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2024-04-25T11:57:41.522Z] ----------------------------------------------------------------------
+[debug] [2024-04-25T11:57:41.525Z] Command:       /home/darealestniqqa/.nvm/versions/node/v18.15.0/bin/node /home/darealestniqqa/dev-projects/task-management-app/node_modules/firebase-tools/lib/bin/firebase.js init
+[debug] [2024-04-25T11:57:41.526Z] CLI Version:   13.7.4
+[debug] [2024-04-25T11:57:41.526Z] Platform:      linux
+[debug] [2024-04-25T11:57:41.527Z] Node Version:  v18.15.0
+[debug] [2024-04-25T11:57:41.527Z] Time:          Thu Apr 25 2024 12:57:41 GMT+0100 (West Africa Standard Time)
+[debug] [2024-04-25T11:57:41.527Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-04-25T11:57:41.539Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-04-25T11:57:41.540Z] > authorizing via signed-in user (danielnyong66@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  /home/darealestniqqa/dev-projects/task-management-app
+
+[debug] [2024-04-25T11:57:59.942Z] Error: Timed out.
+    at Timeout._onTimeout (/home/darealestniqqa/dev-projects/task-management-app/node_modules/.pnpm/firebase-tools@13.7.4/node_modules/firebase-tools/lib/utils.js:261:49)
+    at listOnTimeout (node:internal/timers:569:17)
+    at process.processTimers (node:internal/timers:512:7)
+[error] 
+[error] Error: An unexpected error has occurred.

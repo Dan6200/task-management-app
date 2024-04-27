@@ -55,14 +55,13 @@ const TaskList = observer(() => {
     <div className="">
       <div className="flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between mb-8 sm:mb-14">
         <h2 className="text-2xl font-semibold">
-          All{" "}
           {tasksFilter === "pending"
             ? "Pending"
             : tasksFilter === "in_progress"
             ? "In Progress"
             : tasksFilter === "completed"
             ? "Completed"
-            : ""}{" "}
+            : "All"}{" "}
           Tasks
         </h2>
         <AddTask />

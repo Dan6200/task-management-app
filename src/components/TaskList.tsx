@@ -10,7 +10,10 @@ import { useStore } from "@/stores/StoreProvider";
 import { TaskModel } from "@/stores/TaskStore";
 
 const TaskList = observer(() => {
-  const { taskStore } = useStore();
+  const taskStoreObj = useStore();
+  console.log("task store object", taskStoreObj);
+  if (!taskStoreObj) return null;
+  const { taskStore } = taskStoreObj;
   const searchParams = useSearchParams();
   const tasksFilter = searchParams.get("tasks");
 

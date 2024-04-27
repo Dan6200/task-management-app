@@ -1,3 +1,4 @@
+"use client";
 //cspell:ignore firestore nextjs
 import { types, Instance, SnapshotIn, onSnapshot } from "mobx-state-tree";
 import {
@@ -17,17 +18,14 @@ export const TaskModel = types.model("Task", {
   status: types.string,
 });
 
-let userId: string | null = "blablabla";
-
-// const getUser = async () => {
-//   if (typeof window !== undefined) {
-//     ({ userId } = await fetch("http://localhost:3000/user") // error occurs here!
-//       .then((res) => res.json())
-//       .then((res) => res));
-//   }
-// };
-
-console.log("user Id", userId);
+const userIdPromise = (async () => {
+  try {
+    const data = await fetch("http://localhost:3000/user");
+    return data.json();
+  } catch {
+    return null;
+  }
+})();
 
 export const TaskStore = types
   .model("TaskStore", {
@@ -35,21 +33,25 @@ export const TaskStore = types
   })
   .actions((self) => {
     return {
-      addTask(task: SnapshotIn<typeof TaskModel> | Instance<typeof TaskModel>) {
+      addTask: async (
+        task: SnapshotIn<typeof TaskModel> | Instance<typeof TaskModel>
+      ) => {
         self.tasks.push(task);
+        const { userId } = await userIdPromise;
         if (userId) {
           addDocWrapper(collectionWrapper(db, "users", userId, "tasks"), task);
         }
       },
-      editTask(
+      editTask: async (
         id: string,
         editedTask: { title: string; description: string; status: string }
-      ) {
+      ) => {
         const task = self.tasks.find((task) => task.id === id);
         if (task) {
           task.title = editedTask.title;
           task.description = editedTask.description;
           task.status = editedTask.status;
+          const { userId } = await userIdPromise;
           if (userId) {
             updateDocWrapper(
               docWrapper(db, "users", userId, "tasks", id),
@@ -58,10 +60,11 @@ export const TaskStore = types
           }
         }
       },
-      deleteTask(taskId: string) {
+      deleteTask: async (taskId: string) => {
         const taskIndex = self.tasks.findIndex((task) => task.id === taskId);
         if (taskIndex !== -1) {
           self.tasks.splice(taskIndex, 1);
+          const { userId } = await userIdPromise;
           if (userId) {
             deleteDocWrapper(docWrapper(db, "users", userId, "tasks", taskId));
           }
@@ -74,55 +77,63 @@ export const TaskStore = types
 // Parse the tasks from local storage and create the task store
 let tasksFromLocalStorage: any = [];
 let tasksFromFirestore: any = [];
-if (typeof window !== "undefined") {
-  if (!userId) {
-    const tasksJSON = localStorage.getItem("taskStore");
-    if (tasksJSON) {
-      try {
-        tasksFromLocalStorage = JSON.parse(tasksJSON).tasks;
-      } catch (error) {
-        console.error("Error parsing tasks from local storage:", error);
+
+async function initializeStore() {
+  const { userId } = await userIdPromise;
+  if (typeof window !== "undefined") {
+    if (!userId) {
+      const tasksJSON = localStorage.getItem("taskStore");
+      if (tasksJSON) {
+        try {
+          tasksFromLocalStorage = JSON.parse(tasksJSON).tasks;
+        } catch (error) {
+          console.error("Error parsing tasks from local storage:", error);
+        }
       }
-    }
-  } else {
-    getDocsWrapper(collectionWrapper(db, "users", userId, "tasks")).then(
-      (querySnapshot: any) => {
+    } else {
+      await getDocsWrapper(
+        collectionWrapper(db, "users", userId, "tasks")
+      ).then((querySnapshot: any) => {
         querySnapshot.forEach((doc: any) => {
           tasksFromFirestore.push(doc.data());
         });
-      }
-    );
-  }
-}
-
-export let taskStore: any = null;
-if (userId) {
-  taskStore = TaskStore.create({
-    tasks: tasksFromFirestore,
-  });
-} else {
-  taskStore = TaskStore.create({
-    tasks: tasksFromLocalStorage,
-  });
-}
-
-// Function to update the store with the initial snapshot
-export function updateTaskStoreWithSnapshot(snapshot: any) {
-  taskStore = TaskStore.create(snapshot);
-}
-
-// Save tasks to local storage whenever a change occurs
-// If logged in, save tasks to Firestore under the current user's document whenever a change occurs
-if (typeof window == "undefined") {
-  onSnapshot(taskStore, (snapshot: any) => {
-    localStorage.setItem("taskStore", JSON.stringify(snapshot));
-    if (userId) {
-      snapshot.tasks.forEach((task: any) => {
-        updateDocWrapper(
-          docWrapper(db, "users", userId, "tasks", task.id),
-          task
-        );
       });
     }
-  });
+  }
+
+  let taskStore: any = null;
+  if (userId) {
+    taskStore = TaskStore.create({
+      tasks: tasksFromFirestore,
+    });
+  } else {
+    taskStore = TaskStore.create({
+      tasks: tasksFromLocalStorage,
+    });
+  }
+
+  // Save tasks to local storage whenever a change occurs
+  // If logged in, save tasks to Firestore under the current user's document whenever a change occurs
+  if (typeof window == "undefined") {
+    onSnapshot(taskStore, (snapshot: any) => {
+      localStorage.setItem("taskStore", JSON.stringify(snapshot));
+      if (userId) {
+        snapshot.tasks.forEach((task: any) => {
+          updateDocWrapper(
+            docWrapper(db, "users", userId, "tasks", task.id),
+            task
+          );
+        });
+      }
+    });
+  }
+
+  // Function to update the store with the initial snapshot
+  function updateTaskStoreWithSnapshot(snapshot: any) {
+    taskStore = TaskStore.create(snapshot);
+  }
+
+  return { taskStore, updateTaskStoreWithSnapshot };
 }
+
+export const storePromise = initializeStore();

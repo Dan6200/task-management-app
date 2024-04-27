@@ -20,7 +20,7 @@ export const TaskModel = types.model("Task", {
 
 const userIdPromise = (async () => {
   try {
-    const data = await fetch("http://localhost:3000/user");
+    const data = await fetch(process.env.NEXT_PUBLIC_URL + "/user");
     return data.json();
   } catch {
     return null;

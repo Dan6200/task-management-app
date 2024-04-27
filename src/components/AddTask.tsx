@@ -25,6 +25,7 @@ import {
 import { useStore } from "@/stores/StoreProvider";
 
 const AddTask = observer(() => {
+  //@ts-ignore
   const { taskStore } = useStore();
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState<string>("");
@@ -61,10 +62,7 @@ const AddTask = observer(() => {
   };
 
   return (
-    <Dialog
-      open={open}
-      onOpenChange={setOpen}
-    >
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="default">Add New Task</Button>
       </DialogTrigger>
@@ -79,10 +77,7 @@ const AddTask = observer(() => {
         <form onSubmit={handleNewTask}>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-2">
-              <Label
-                htmlFor="name"
-                className="text-left"
-              >
+              <Label htmlFor="name" className="text-left">
                 Title
               </Label>
               <Input
@@ -94,10 +89,7 @@ const AddTask = observer(() => {
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-2">
-              <Label
-                htmlFor="description"
-                className="text-left"
-              >
+              <Label htmlFor="description" className="text-left">
                 Description
               </Label>
               <Textarea
@@ -110,16 +102,10 @@ const AddTask = observer(() => {
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-2">
-              <Label
-                htmlFor="status"
-                className="text-left"
-              >
+              <Label htmlFor="status" className="text-left">
                 Status
               </Label>
-              <Select
-                value={status}
-                onValueChange={setStatus}
-              >
+              <Select value={status} onValueChange={setStatus}>
                 <SelectTrigger className="col-span-3">
                   <SelectValue placeholder="Task Status" />
                 </SelectTrigger>

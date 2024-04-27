@@ -17,6 +17,7 @@ interface TaskProps {
 }
 
 const Task = observer(({ id, title, description, status }: TaskProps) => {
+  // @ts-ignore
   const { taskStore } = useStore();
   const [open, setOpen] = useState(false);
 
@@ -26,15 +27,9 @@ const Task = observer(({ id, title, description, status }: TaskProps) => {
         <h3 className="text-lg font-medium">{title}</h3>
 
         <div className="flex gap-1 sm:gap-3">
-          <Dialog
-            open={open}
-            onOpenChange={setOpen}
-          >
+          <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-              >
+              <Button variant="ghost" size="icon">
                 <Pencil2Icon className="w-5 h-5 text-blue-500" />
               </Button>
             </DialogTrigger>

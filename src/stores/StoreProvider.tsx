@@ -40,6 +40,7 @@ export const StoreProvider = ({ children }: any) => {
   };
 
   return (
+    // @ts-ignore
     <StoreContext.Provider value={stores}>{children}</StoreContext.Provider>
   );
 };

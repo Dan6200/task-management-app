@@ -37,6 +37,7 @@ const EditTask = ({
   open,
   setOpen,
 }: EditTaskProps) => {
+  // @ts-ignore
   const { taskStore } = useStore();
   const router = useRouter();
   const [newTitle, setNewTitle] = useState<string>(title);
@@ -83,10 +84,7 @@ const EditTask = ({
       <form onSubmit={handleEditedTask}>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-2">
-            <Label
-              htmlFor="name"
-              className="text-left"
-            >
+            <Label htmlFor="name" className="text-left">
               Title
             </Label>
             <Input
@@ -98,10 +96,7 @@ const EditTask = ({
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-2">
-            <Label
-              htmlFor="description"
-              className="text-left"
-            >
+            <Label htmlFor="description" className="text-left">
               Description
             </Label>
             <Textarea
@@ -114,16 +109,10 @@ const EditTask = ({
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-2">
-            <Label
-              htmlFor="status"
-              className="text-left"
-            >
+            <Label htmlFor="status" className="text-left">
               Status
             </Label>
-            <Select
-              value={newStatus}
-              onValueChange={setNewStatus}
-            >
+            <Select value={newStatus} onValueChange={setNewStatus}>
               <SelectTrigger className="col-span-3">
                 <SelectValue placeholder="Task Status" />
               </SelectTrigger>

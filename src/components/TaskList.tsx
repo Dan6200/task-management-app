@@ -11,6 +11,7 @@ import { TaskModel } from "@/stores/TaskStore";
 import { Button } from "./ui/Button";
 
 const TaskList = observer(() => {
+  //@ts-ignore
   const { taskStore, loading } = useStore();
   const searchParams = useSearchParams();
 
@@ -37,14 +38,16 @@ const TaskList = observer(() => {
   let filteredTasks: types.Array<Instance<typeof TaskModel>> = taskStore.tasks;
 
   if (tasksFilter === "pending") {
-    filteredTasks = taskStore.tasks.filter((task) => task.status === "pending");
+    filteredTasks = taskStore.tasks.filter(
+      (task: any) => task.status === "pending"
+    );
   } else if (tasksFilter === "in_progress") {
     filteredTasks = taskStore.tasks.filter(
-      (task) => task.status === "in_progress"
+      (task: any) => task.status === "in_progress"
     );
   } else if (tasksFilter === "completed") {
     filteredTasks = taskStore.tasks.filter(
-      (task) => task.status === "completed"
+      (task: any) => task.status === "completed"
     );
   }
 

@@ -8,6 +8,7 @@ const StoreContext = createContext(null);
 
 export const StoreProvider = ({ children }: any) => {
   const [store, setStore] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const initializeStore = async () => {
@@ -27,13 +28,19 @@ export const StoreProvider = ({ children }: any) => {
       });
 
       setStore({ taskStore });
+      setLoading(false);
     };
 
     initializeStore();
   }, []);
 
+  const stores = {
+    taskStore: store?.taskStore,
+    loading,
+  };
+
   return (
-    <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
+    <StoreContext.Provider value={stores}>{children}</StoreContext.Provider>
   );
 };
 

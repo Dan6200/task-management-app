@@ -8,13 +8,29 @@ import AddTask from "./AddTask";
 import TaskFilter from "./TaskFilter";
 import { useStore } from "@/stores/StoreProvider";
 import { TaskModel } from "@/stores/TaskStore";
+import { Button } from "./ui/Button";
 
 const TaskList = observer(() => {
-  const taskStoreObj = useStore();
-  console.log("task store object", taskStoreObj);
-  if (!taskStoreObj) return null;
-  const { taskStore } = taskStoreObj;
+  const { taskStore, loading } = useStore();
   const searchParams = useSearchParams();
+
+  if (loading)
+    return (
+      <div className="">
+        <div className="flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between mb-8 sm:mb-14">
+          <h2 className="text-2xl font-semibold animate-pulse">
+            Loading Tasks
+          </h2>
+          <Button variant="default" className="animate-pulse">
+            Loading
+          </Button>
+        </div>
+
+        <TaskFilter />
+
+        <div className="flex flex-col gap-2 px-4 py-5 max-h-[600px] overflow-auto animate-pulse"></div>
+      </div>
+    );
   const tasksFilter = searchParams.get("tasks");
 
   //@ts-ignore
@@ -36,7 +52,7 @@ const TaskList = observer(() => {
     <div className="">
       <div className="flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between mb-8 sm:mb-14">
         <h2 className="text-2xl font-semibold">
-          All The{" "}
+          All{" "}
           {tasksFilter === "pending"
             ? "Pending"
             : tasksFilter === "in_progress"

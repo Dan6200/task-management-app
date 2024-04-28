@@ -17,3 +17,7 @@ This is a task management application built with Next.js, TypeScript, Tailwind C
 - Mobx State Tree (MST): A state management library for predictable state management.
 - Clerk: A user session management and authentication library.
 - Firestore: Cloud Database by firebase
+
+## Project Showcase
+
+[TASK MANAGEMENT APP](https://task-management-app-beige.vercel.app)

@@ -9,10 +9,13 @@ import TaskFilter from "./TaskFilter";
 import { useStore } from "@/stores/StoreProvider";
 import { TaskModel } from "@/stores/TaskStore";
 import { Button } from "./ui/Button";
+import { useAtomValue } from "jotai";
+import { isSmallScreenAtom } from "@/atoms";
 
 const TaskList = observer(() => {
   //@ts-ignore
   const { taskStore, loading } = useStore();
+  const isSmallScreen = useAtomValue(isSmallScreenAtom);
   const searchParams = useSearchParams();
 
   if (loading)
@@ -53,7 +56,7 @@ const TaskList = observer(() => {
 
   return (
     <div className="">
-      <div className="flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between mb-8 sm:mb-14">
+      <div className="flex flex-col sm:flex-row gap-4 items-center sm:justify-between mb-8 sm:mb-14">
         <h2 className="text-2xl font-semibold">
           {tasksFilter === "pending"
             ? "Pending"
@@ -64,7 +67,7 @@ const TaskList = observer(() => {
             : "All"}{" "}
           Tasks
         </h2>
-        <AddTask />
+        {isSmallScreen ? null : <AddTask />}
       </div>
 
       <TaskFilter />
@@ -79,6 +82,7 @@ const TaskList = observer(() => {
             status={task.status}
           />
         ))}
+        {isSmallScreen && <AddTask />}
       </div>
     </div>
   );

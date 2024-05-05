@@ -62,7 +62,17 @@ const TaskList = observer(() => {
             : "All"}{" "}
           Tasks
         </h2>
-        {isSmallScreen ? null : <AddTask />}
+        {isSmallScreen ? null : (
+          <div className="flex flex-col mt-4">
+            {loading ? (
+              <Button variant="default" className="flex gap-1 animate-pulse">
+                Loading <Spinner />
+              </Button>
+            ) : (
+              <AddTask />
+            )}
+          </div>
+        )}
       </div>
 
       {loading ? null : <TaskFilter />}

@@ -22,7 +22,7 @@ const Task = observer(({ id, title, description, status }: TaskProps) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="relative bg-white p-4 rounded shadow mt-1 border-b border-slate-300 max-w-2xl">
+    <div className="relative w-full bg-white p-4 rounded shadow mt-1 border-b border-slate-300 max-w-2xl">
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-medium">{title}</h3>
 

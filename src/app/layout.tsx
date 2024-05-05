@@ -4,6 +4,7 @@ import { StoreProvider } from "@/stores/StoreProvider";
 import { ClerkProvider } from "@clerk/nextjs";
 import Navbar from "@/components/Navbar";
 import { Resizer } from "@/components/Resizer";
+import { Theme } from "@radix-ui/themes";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,10 +23,12 @@ export default function RootLayout({
       <html lang="en">
         <body className={`bg-slate-100 ${inter.className}`}>
           <Resizer>
-            <Navbar />
-            <StoreProvider>
-              <main className="container">{children}</main>
-            </StoreProvider>
+            <Theme>
+              <Navbar />
+              <StoreProvider>
+                <main className="container">{children}</main>
+              </StoreProvider>
+            </Theme>
           </Resizer>
         </body>
       </html>

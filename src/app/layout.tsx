@@ -21,14 +21,12 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`bg-slate-100 ${inter.className}`}>
+        <body className={`bg-background ${inter.className}`}>
           <Resizer>
-            <Theme>
-              <Navbar />
-              <StoreProvider>
-                <main className="container">{children}</main>
-              </StoreProvider>
-            </Theme>
+            <Navbar />
+            <StoreProvider>
+              <main className="container">{children}</main>
+            </StoreProvider>
           </Resizer>
         </body>
       </html>

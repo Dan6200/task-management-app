@@ -32,6 +32,7 @@
     "firebase": "^10.11.0",
     "firebase-tools": "^13.7.4",
     "jotai": "^2.8.0",
+    "lucide-react": "^0.378.0",
     "mobx": "^6.9.0",
     "mobx-react-lite": "^3.4.3",
     "mobx-state-tree": "^5.1.8",
@@ -46,6 +47,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "daisyui": "^4.11.1",
     "tailwind-scrollbar": "^3.0.4"
   }
 }

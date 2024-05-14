@@ -11,7 +11,7 @@ import { TaskModel } from "@/stores/TaskStore";
 import { Button } from "./ui/Button";
 import { useAtomValue } from "jotai";
 import { isSmallScreenAtom } from "@/atoms";
-import { Spinner } from "@radix-ui/themes";
+import { LoaderCircle } from "lucide-react";
 import { TaskSkeleton } from "./TaskSkeleton";
 
 const TaskList = observer(() => {
@@ -45,7 +45,7 @@ const TaskList = observer(() => {
 
   return (
     <div className="">
-      <div className="flex flex-col sm:flex-row gap-4 items-center sm:justify-between mb-8 sm:mb-14">
+      <div className="flex flex-col overflow-y-scroll sm:flex-row gap-4 items-center sm:justify-between mb-8 sm:mb-14">
         <h2
           className={
             (loading ? "animate-pulse " : "") + "text-2xl font-semibold"
@@ -66,7 +66,7 @@ const TaskList = observer(() => {
           <div className="flex flex-col mt-4">
             {loading ? (
               <Button variant="default" className="flex gap-1 animate-pulse">
-                Loading <Spinner />
+                Loading <LoaderCircle className="animate-spin" />
               </Button>
             ) : (
               <AddTask />
@@ -96,7 +96,7 @@ const TaskList = observer(() => {
           <div className="flex flex-col mt-4">
             {loading ? (
               <Button variant="default" className="flex gap-1 animate-pulse">
-                Loading <Spinner />
+                Loading <LoaderCircle className="w-2 animate-spin" />
               </Button>
             ) : (
               <AddTask />

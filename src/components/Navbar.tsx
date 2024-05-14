@@ -8,15 +8,15 @@ import {
   ClerkLoaded,
 } from "@clerk/nextjs";
 import { Button } from "./ui/Button";
-import { Spinner } from "@radix-ui/themes";
+import { LoaderCircle } from "lucide-react";
 
 const Navbar = () => (
-  <header className="flex justify-between p-4 mb-8 px-8 items-center sm:px-16 border-b-2">
-    <h1 className="font-bold text-xl">Task Manager</h1>
+  <header className="flex justify-between p-4 mb-8 px-8 items-center sm:px-16 border-b-2 shadow-md">
+    <h1 className="font-bold text-xl text-primary">Task Manager</h1>
     <div>
       <ClerkLoading>
         <Button>
-          <Spinner />
+          <LoaderCircle className="animate-spin" />
         </Button>
       </ClerkLoading>
       <ClerkLoaded>

@@ -22,6 +22,7 @@ module.exports = {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        skeleton: "hsl(var(--skeleton))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -84,5 +85,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("daisyui", "tailwindcss-animate", "tailwind-scrollbar")],
+  plugins: [require("tailwindcss-animate", "tailwind-scrollbar")],
 };

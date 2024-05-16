@@ -8,7 +8,7 @@ const TaskFilter = ({}: TaskFilterProps) => {
   const tasksFilter = searchParams.get("tasks");
 
   return (
-    <div className="mb-4">
+    <div className="shadow-md rounded-sm mb-2">
       <ul className="flex flex-wrap gap-1 sm:gap-4 justify-center text-xs sm:text-base font-medium text-center text-slate-500 border-b border-slate/20 ">
         <Link
           href="/"

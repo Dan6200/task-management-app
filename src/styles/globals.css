@@ -126,6 +126,8 @@
 
 .cl-button:hover {
   background-color: hsl(var(--secondary));
+  color: hsl(var(--primary));
+  /* border: 1px solid hsl(var(--primary)); */
 }
 
 .cl-userButtonBox {
@@ -145,4 +147,12 @@
 
 .cl-formButtonPrimary {
   background-color: hsl(var(--primary));
+}
+
+.cl-formFieldInput:focus .cl-formButtonPrimary.cl-button:focus {
+  outline: none;
+}
+
+.cl-internal-ttumny[data-variant="solid"][data-color="primary"] {
+  box-shadow: none;
 }

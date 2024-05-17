@@ -78,7 +78,7 @@ const TaskList = observer(() => {
 
       {loading ? null : <TaskFilter />}
 
-      <div className="flex w-full items-center flex-col gap-2 sm:px-4 py-5 max-h-[600px] overflow-auto">
+      <div className="flex w-full items-center flex-col gap-2 sm:px-4 py-5">
         {loading ? (
           <TaskSkeleton />
         ) : taskStore.tasks?.length ? (
@@ -93,8 +93,8 @@ const TaskList = observer(() => {
               />
             ))
           ) : (
-            <div className="w-full capitalize text-heading/50 bg-primary/10 rounded-md font-semibold flex flex-col items-center px-2 py-8 sm:p-8">
-              <div className="text-2xl sm:text-4xl mb-4 sm:mb-8">
+            <div className="w-full capitalize text-heading/50 bg-primary/10 rounded-md font-semibold flex justify-center px-2 py-8 sm:p-8">
+              <div className="text-xl sm:text-2xl mb-4 sm:mb-8">
                 <h1>No {tasksFilter + " "}tasks.</h1>
               </div>
             </div>

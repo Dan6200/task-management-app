@@ -4,7 +4,6 @@ import { StoreProvider } from "@/stores/StoreProvider";
 import { ClerkProvider } from "@clerk/nextjs";
 import Navbar from "@/components/Navbar";
 import { Resizer } from "@/components/Resizer";
-import { Theme } from "@radix-ui/themes";
 
 const inter = Inter({ subsets: ["latin"] });
 

@@ -45,10 +45,11 @@ const TaskList = observer(() => {
 
   return (
     <div className="">
-      <div className="flex flex-col overflow-y-scroll sm:flex-row gap-4 items-center sm:justify-between mb-8 sm:mb-14">
+      <div className="flex sm:flex-row items-center justify-center sm:justify-between mb-8 sm:mb-14">
         <h2
           className={
-            (loading ? "animate-pulse " : "") + "text-2xl font-semibold"
+            (loading ? "animate-pulse " : "") +
+            "text-heading text-2xl font-semibold"
           }
         >
           {filteredTasks === null
@@ -63,10 +64,10 @@ const TaskList = observer(() => {
           Tasks
         </h2>
         {isSmallScreen ? null : (
-          <div className="flex flex-col mt-4">
+          <div className="flex flex-col">
             {loading ? (
               <Button variant="default" className="flex gap-1 animate-pulse">
-                Loading <LoaderCircle className="animate-spin" />
+                Loading Tasks <LoaderCircle className="w-4 animate-spin" />
               </Button>
             ) : (
               <AddTask />
@@ -80,23 +81,39 @@ const TaskList = observer(() => {
       <div className="flex w-full items-center flex-col gap-2 sm:px-4 py-5 max-h-[600px] overflow-auto">
         {loading ? (
           <TaskSkeleton />
+        ) : taskStore.tasks?.length ? (
+          filteredTasks?.length ? (
+            filteredTasks.map((task: any) => (
+              <Task
+                key={task.id}
+                id={task.id}
+                title={task.title}
+                description={task.description}
+                status={task.status}
+              />
+            ))
+          ) : (
+            <div className="w-full capitalize text-heading/50 bg-primary/10 rounded-md font-semibold flex flex-col items-center px-2 py-8 sm:p-8">
+              <div className="text-2xl sm:text-4xl mb-4 sm:mb-8">
+                <h1>No {tasksFilter + " "}tasks.</h1>
+              </div>
+            </div>
+          )
         ) : (
-          filteredTasks &&
-          filteredTasks.map((task: any) => (
-            <Task
-              key={task.id}
-              id={task.id}
-              title={task.title}
-              description={task.description}
-              status={task.status}
-            />
-          ))
+          <div className="w-full capitalize text-heading/50 bg-primary/10 rounded-md font-semibold flex flex-col items-center px-2 py-8 sm:p-8">
+            <div className="text-2xl sm:text-4xl mb-4 sm:mb-8">
+              <h1>No tasks yet.</h1>
+            </div>
+            <div className="text-lg sm:text-2xl">
+              <h3>click the add new tasks button</h3>
+            </div>
+          </div>
         )}
         {isSmallScreen && (
           <div className="flex flex-col mt-4">
             {loading ? (
               <Button variant="default" className="flex gap-1 animate-pulse">
-                Loading <LoaderCircle className="w-2 animate-spin" />
+                Loading Tasks <LoaderCircle className="w-2 animate-spin" />
               </Button>
             ) : (
               <AddTask />

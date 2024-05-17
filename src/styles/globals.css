@@ -22,7 +22,7 @@
     --primary: 288.06 90.52% 28.63%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 17.91 90.52% 58.63%;
+    --secondary: 350.18 84.62% 94.51%;
     --secondary-foreground: 222.2 47.4% 11.2%;
 
     --accent: 210 40% 96.1%;
@@ -45,6 +45,7 @@
     --green-dark: 163 88% 20%;
 
     --skeleton: 17.91 90.52% 96%;
+    --heading: 288.06 90.52% 18.63%;
   }
 
   .dark {
@@ -109,4 +110,39 @@
   background-color: hsl(var(--primary));
   border-radius: 14px;
   border: 3px solid hsl(var(--accent));
+}
+
+/* Clerk */
+.cl-userPreview,
+.cl-navbar,
+.cl-internal-11ttlho {
+  background-color: hsl(var(--background));
+  background: hsl(var(--background));
+}
+
+.cl-button {
+  background-color: hsl(var(--background));
+}
+
+.cl-button:hover {
+  background-color: hsl(var(--secondary));
+}
+
+.cl-userButtonBox {
+  border: 3px solid hsl(350.18 84.62% 74.51%);
+  border-radius: 50%;
+}
+
+.cl-internal-dqnjy0 {
+  padding: 4px 8px;
+  border-radius: 10px;
+}
+
+.cl-internal-c2xpfh {
+  box-shadow: hsl(var(--border)) 0px 0px 2px 0px,
+    rgba(25, 28, 33, 0.06) 0px 1px 2px 0px, rgba(0, 0, 0, 0.03) 0px 0px 0px 1px;
+}
+
+.cl-formButtonPrimary {
+  background-color: hsl(var(--primary));
 }

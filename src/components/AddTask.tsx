@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "./ui/Select";
 import { useStore } from "@/stores/StoreProvider";
+import { Plus } from "lucide-react";
 
 const AddTask = observer(() => {
   //@ts-ignore
@@ -64,7 +65,9 @@ const AddTask = observer(() => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="default">Add New Task</Button>
+        <Button variant="default">
+          Add New Task <Plus className="ml-2 w-4" />
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-2xl">
         <DialogHeader>

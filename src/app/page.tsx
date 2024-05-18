@@ -1,5 +1,4 @@
 import TaskList from "@/components/TaskList";
-import "@radix-ui/themes/styles.css";
 
 const Home = async ({}) => {
   return (

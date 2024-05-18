@@ -1,4 +1,3 @@
-"use client";
 //cspell:ignore firestore nextjs
 import { types, Instance, SnapshotIn, onSnapshot } from "mobx-state-tree";
 import {

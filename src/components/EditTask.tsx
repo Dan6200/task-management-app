@@ -74,7 +74,7 @@ const EditTask = ({
   };
 
   return (
-    <DialogContent className="sm:max-w-2xl">
+    <DialogContent className="w-[90vw] sm:max-w-2xl">
       <DialogHeader>
         <DialogTitle className="text-xl">Edit Task</DialogTitle>
         <DialogDescription>
@@ -84,7 +84,7 @@ const EditTask = ({
       <form onSubmit={handleEditedTask}>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-2">
-            <Label htmlFor="name" className="text-left">
+            <Label htmlFor="name" className="col-span-4 sm:col-span-1 text-center sm:text-left">
               Title
             </Label>
             <Input
@@ -92,11 +92,11 @@ const EditTask = ({
               value={newTitle}
               onChange={(e) => setNewTitle(e.target.value)}
               placeholder="Title"
-              className="col-span-3"
+              className="col-span-4 sm:col-span-3"
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-2">
-            <Label htmlFor="description" className="text-left">
+            <Label htmlFor="description" className="col-span-4 sm:col-span-1 text-center sm:text-left">
               Description
             </Label>
             <Textarea
@@ -105,15 +105,15 @@ const EditTask = ({
               value={newDescription}
               onChange={(e) => setNewDescription(e.target.value)}
               placeholder="Description"
-              className="col-span-3"
+              className="col-span-4 sm:col-span-3"
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-2">
-            <Label htmlFor="status" className="text-left">
+            <Label htmlFor="status" className="col-span-4 sm:col-span-1 text-center sm:text-left">
               Status
             </Label>
             <Select value={newStatus} onValueChange={setNewStatus}>
-              <SelectTrigger className="col-span-3">
+              <SelectTrigger className="col-span-4 sm:col-span-3">
                 <SelectValue placeholder="Task Status" />
               </SelectTrigger>
               <SelectContent>

@@ -21,7 +21,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./ui/Select";
+} from "./ui/_select";
 import { useStore } from "@/stores/StoreProvider";
 import { Plus } from "lucide-react";
 
@@ -31,8 +31,8 @@ const AddTask = observer(() => {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [status, setStatus] = useState<string>();
-  const [error, setError] = useState<string>();
+  const [status, setStatus] = useState<string>("");
+  const [error, setError] = useState<string>("");
 
   const handleNewTask = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -50,6 +50,7 @@ const AddTask = observer(() => {
         description,
         status,
       };
+      console.log(newTask);
 
       taskStore.addTask(newTask);
 
@@ -69,7 +70,7 @@ const AddTask = observer(() => {
           Add New Task <Plus className="ml-2 w-4" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-2xl">
+      <DialogContent className="w-[90vw] sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle className="text-xl">Add Task</DialogTitle>
           <DialogDescription>
@@ -80,7 +81,10 @@ const AddTask = observer(() => {
         <form onSubmit={handleNewTask}>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-2">
-              <Label htmlFor="name" className="text-left">
+              <Label
+                htmlFor="name"
+                className="col-span-4 sm:col-span-1 text-center sm:text-left"
+              >
                 Title
               </Label>
               <Input
@@ -88,16 +92,19 @@ const AddTask = observer(() => {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Title"
-                className="col-span-3"
+                className="col-span-4 sm:col-span-3"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-2">
-              <Label htmlFor="description" className="text-left">
+              <Label
+                htmlFor="description"
+                className="col-span-4 sm:col-span-1 text-center sm:text-left"
+              >
                 Description
               </Label>
               <Textarea
                 id="description"
-                className="col-span-3"
+                className="col-span-4 sm:col-span-3"
                 rows={5}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -105,11 +112,14 @@ const AddTask = observer(() => {
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-2">
-              <Label htmlFor="status" className="text-left">
+              <Label
+                htmlFor="status"
+                className="col-span-4 sm:col-span-1 text-center sm:text-left"
+              >
                 Status
               </Label>
-              <Select value={status} onValueChange={setStatus}>
-                <SelectTrigger className="col-span-3">
+              <Select onValueChange={setStatus}>
+                <SelectTrigger className="col-span-4 sm:col-span-3">
                   <SelectValue placeholder="Task Status" />
                 </SelectTrigger>
                 <SelectContent>

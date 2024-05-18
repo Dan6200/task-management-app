@@ -9,12 +9,12 @@ const TaskFilter = ({}: TaskFilterProps) => {
 
   return (
     <div className="shadow-md rounded-sm mb-2">
-      <ul className="flex justify-between text-xs sm:text-base font-medium text-center text-heading/50 border-b">
+      <ul className="flex justify-between text-xs sm:text-base font-medium text-center text-heading/50 border-b-2 bg-accent/50">
         <Link
           href="/"
           className={`${
             tasksFilter === null && "bg-primary/20 text-heading "
-          } w-fit inline-block px-3 sm:px-14 py-2 rounded focus:outline-none`}
+          } w-fit inline-block px-3 sm:px-8 md:px-14 py-2 rounded focus:outline-none`}
         >
           All
         </Link>
@@ -23,7 +23,7 @@ const TaskFilter = ({}: TaskFilterProps) => {
           href="/?tasks=pending"
           className={`${
             tasksFilter === "pending" && "bg-primary/20 text-heading "
-          } inline-block px-3 sm:px-14 py-2 rounded focus:outline-none`}
+          } inline-block px-3 sm:px-8 md:px-14 py-2 rounded focus:outline-none`}
         >
           Pending
         </Link>
@@ -32,7 +32,7 @@ const TaskFilter = ({}: TaskFilterProps) => {
           href="/?tasks=in_progress"
           className={`${
             tasksFilter === "in_progress" && "bg-primary/20 text-heading "
-          } inline-block px-3 sm:px-14 py-2 rounded focus:outline-none`}
+          } inline-block px-3 sm:px-8 md:px-14 py-2 rounded focus:outline-none`}
         >
           In Progress
         </Link>
@@ -41,7 +41,7 @@ const TaskFilter = ({}: TaskFilterProps) => {
           href="/?tasks=completed"
           className={`${
             tasksFilter === "completed" && "bg-primary/20 text-heading "
-          } inline-block px-3 sm:px-14 py-2 rounded focus:outline-none`}
+          } inline-block px-3 sm:px-8 md:px-14 py-2 rounded focus:outline-none`}
         >
           Completed
         </Link>

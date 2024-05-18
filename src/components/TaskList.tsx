@@ -104,7 +104,7 @@ const TaskList = observer(() => {
             <div className="text-2xl sm:text-4xl mb-4 sm:mb-8">
               <h1>No tasks yet.</h1>
             </div>
-            <div className="text-lg sm:text-2xl">
+            <div className="text-md sm:text-2xl">
               <h3>click the add new tasks button</h3>
             </div>
           </div>

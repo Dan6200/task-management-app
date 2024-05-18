@@ -15,9 +15,7 @@ const Navbar = () => (
     <h1 className="font-bold text-xl text-heading">Task Manager</h1>
     <div>
       <ClerkLoading>
-        <Button>
-          <LoaderCircle className="animate-spin" />
-        </Button>
+        <LoaderCircle className="animate-spin text-primary" />
       </ClerkLoading>
       <ClerkLoaded>
         <SignedOut>

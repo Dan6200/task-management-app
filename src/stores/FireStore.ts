@@ -1,4 +1,3 @@
-"server-only";
 import {
   collection,
   addDoc,

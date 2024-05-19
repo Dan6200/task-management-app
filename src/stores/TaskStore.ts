@@ -10,6 +10,14 @@ import {
 } from "./FireStore";
 import db from "./db";
 
+// Mock fetch if testing env
+if (process.env.NODE_ENV === "test") {
+  //@ts-ignore
+  global.fetch = jest.fn(() =>
+    Promise.resolve({ json: () => Promise.resolve({ userId: "mock user" }) })
+  );
+}
+
 export const TaskModel = types.model("Task", {
   id: types.identifier,
   title: types.string,
@@ -17,14 +25,15 @@ export const TaskModel = types.model("Task", {
   status: types.string,
 });
 
-const userIdPromise = (async () => {
+export const userIdPromise = async () => {
   try {
     const data = await fetch(process.env.NEXT_PUBLIC_URL + "/user");
     return data.json();
-  } catch {
+  } catch (error) {
+    console.error(error);
     return null;
   }
-})();
+};
 
 export const TaskStore = types
   .model("TaskStore", {
@@ -36,26 +45,48 @@ export const TaskStore = types
         task: SnapshotIn<typeof TaskModel> | Instance<typeof TaskModel>
       ) => {
         self.tasks.push(task);
-        const { userId } = await userIdPromise;
+        const { userId } = await userIdPromise();
         if (userId) {
-          addDocWrapper(collectionWrapper(db, "users", userId, "tasks"), task);
+          const { ref, error } = collectionWrapper(
+            db,
+            "users",
+            userId,
+            "tasks"
+          );
+          if (error) {
+            console.error(error);
+          } else {
+            const { error, result } = await addDocWrapper(ref, task);
+            if (error) console.error(error);
+            console.log(result);
+          }
         }
       },
       editTask: async (
-        id: string,
+        taskId: string,
         editedTask: { title: string; description: string; status: string }
       ) => {
-        const task = self.tasks.find((task) => task.id === id);
+        const task = self.tasks.find((task) => task.id === taskId);
         if (task) {
           task.title = editedTask.title;
           task.description = editedTask.description;
           task.status = editedTask.status;
-          const { userId } = await userIdPromise;
+          console.log(task);
+          const { userId } = await userIdPromise();
           if (userId) {
-            updateDocWrapper(
-              docWrapper(db, "users", userId, "tasks", id),
-              editedTask
+            const { error, ref } = docWrapper(
+              db,
+              "users",
+              userId,
+              "tasks",
+              taskId
             );
+            if (error) {
+              console.error(error);
+            } else {
+              const { error } = await updateDocWrapper(ref, editedTask);
+              if (error) console.error(error);
+            }
           }
         }
       },
@@ -63,9 +94,24 @@ export const TaskStore = types
         const taskIndex = self.tasks.findIndex((task) => task.id === taskId);
         if (taskIndex !== -1) {
           self.tasks.splice(taskIndex, 1);
-          const { userId } = await userIdPromise;
+          const { userId } = await userIdPromise();
           if (userId) {
-            deleteDocWrapper(docWrapper(db, "users", userId, "tasks", taskId));
+            const { error, ref } = docWrapper(
+              db,
+              "users",
+              userId,
+              "tasks",
+              taskId
+            );
+            if (error) {
+              console.error(error);
+            } else {
+              const { error } = await deleteDocWrapper(ref);
+
+              if (error) {
+                console.error(error);
+              }
+            }
           }
         }
       },
@@ -78,7 +124,7 @@ let tasksFromLocalStorage: any = [];
 let tasksFromFirestore: any = [];
 
 async function initializeStore() {
-  const { userId } = await userIdPromise;
+  const { userId } = await userIdPromise();
   if (typeof window !== "undefined") {
     if (!userId) {
       const tasksJSON = localStorage.getItem("taskStore");
@@ -90,13 +136,21 @@ async function initializeStore() {
         }
       }
     } else {
-      await getDocsWrapper(
-        collectionWrapper(db, "users", userId, "tasks")
-      ).then((querySnapshot: any) => {
-        querySnapshot.forEach((doc: any) => {
-          tasksFromFirestore.push(doc.data());
-        });
-      });
+      const { ref, error } = collectionWrapper(db, "users", userId, "tasks");
+      if (error) {
+        console.error(error);
+      } else {
+        const { error, result: querySnapshot } = await getDocsWrapper(ref);
+        if (error) {
+          console.error(error);
+        } else {
+          querySnapshot?.forEach((doc) => {
+            const task: any = doc.data();
+            tasksFromFirestore.push({ ...task, id: doc.id });
+          });
+          console.log(tasksFromFirestore);
+        }
+      }
     }
   }
 
@@ -115,14 +169,28 @@ async function initializeStore() {
   // If logged in, save tasks to Firestore under the current user's document whenever a change occurs
   if (typeof window == "undefined") {
     onSnapshot(taskStore, (snapshot: any) => {
-      localStorage.setItem("taskStore", JSON.stringify(snapshot));
       if (userId) {
-        snapshot.tasks.forEach((task: any) => {
-          updateDocWrapper(
-            docWrapper(db, "users", userId, "tasks", task.id),
-            task
-          );
-        });
+        Promise.all(
+          snapshot.tasks.map(async (task: any) => {
+            const { error, ref } = docWrapper(
+              db,
+              "users",
+              userId,
+              "tasks",
+              task.id
+            );
+            if (error) {
+              console.error(error);
+            } else {
+              const { error } = await updateDocWrapper(ref, task);
+              if (error) {
+                console.error(error);
+              }
+            }
+          })
+        );
+      } else {
+        localStorage.setItem("taskStore", JSON.stringify(snapshot));
       }
     });
   }

@@ -45,12 +45,11 @@ const AddTask = observer(() => {
       setError("Please select a status for the task");
     } else {
       const newTask = {
-        id: Date.now().toString(),
+        id: null,
         title,
         description,
         status,
       };
-      console.log(newTask);
 
       taskStore.addTask(newTask);
 

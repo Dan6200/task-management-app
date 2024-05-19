@@ -45,7 +45,7 @@ const AddTask = observer(() => {
       setError("Please select a status for the task");
     } else {
       const newTask = {
-        id: null,
+        id: Date.now().toString(),
         title,
         description,
         status,

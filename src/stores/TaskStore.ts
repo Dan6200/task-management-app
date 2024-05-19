@@ -9,6 +9,7 @@ import {
   deleteDocWrapper,
 } from "./FireStore";
 import db from "./db";
+import { Query } from "firebase/firestore";
 
 // Mock fetch if testing env
 if (process.env.NODE_ENV === "test") {
@@ -56,9 +57,8 @@ export const TaskStore = types
           if (error) {
             console.error(error);
           } else {
-            const { error, result } = await addDocWrapper(ref, task);
+            const { error, result } = await addDocWrapper(ref!, task);
             if (error) console.error(error);
-            console.log(result);
           }
         }
       },
@@ -71,7 +71,6 @@ export const TaskStore = types
           task.title = editedTask.title;
           task.description = editedTask.description;
           task.status = editedTask.status;
-          console.log(task);
           const { userId } = await userIdPromise();
           if (userId) {
             const { error, ref } = docWrapper(
@@ -140,7 +139,9 @@ async function initializeStore() {
       if (error) {
         console.error(error);
       } else {
-        const { error, result: querySnapshot } = await getDocsWrapper(ref);
+        const { error, result: querySnapshot } = await getDocsWrapper(
+          ref as Query
+        );
         if (error) {
           console.error(error);
         } else {
@@ -148,7 +149,6 @@ async function initializeStore() {
             const task: any = doc.data();
             tasksFromFirestore.push({ ...task, id: doc.id });
           });
-          console.log(tasksFromFirestore);
         }
       }
     }

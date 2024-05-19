@@ -1,14 +1,11 @@
 "use client";
+//cspell:ignore firestore
 
 import { createContext, useContext, useState, useEffect } from "react";
 import { onSnapshot } from "mobx-state-tree";
 import { storePromise, userIdPromise } from "./TaskStore";
-import {
-  collectionWrapper,
-  docWrapper,
-  getDocsWrapper,
-  updateDocWrapper,
-} from "./FireStore";
+import { collectionWrapper, docWrapper, getDocsWrapper } from "./FireStore";
+import { DocumentReference, Query, writeBatch } from "firebase/firestore";
 import db from "./db";
 
 const StoreContext = createContext(null);
@@ -36,39 +33,20 @@ export const StoreProvider = ({ children }: any) => {
           if (error) {
             console.error(error);
           } else {
-            const { error, result: querySnapshot } = await getDocsWrapper(ref);
+            const { error, result: querySnapshot } = await getDocsWrapper(
+              ref as Query
+            );
             if (error) {
               console.error(error);
             } else {
               querySnapshot?.forEach((doc: any) => {
-                tasks.push(doc.data());
+                const task: any = doc.data();
+                tasks.push({ ...task, id: doc.id });
               });
               if (tasks.length) {
                 updateTaskStoreWithSnapshot({ tasks: tasks });
               }
             }
-            // Synchronize the store with db
-            onSnapshot(taskStore, (snapshot: any) => {
-              Promise.all(
-                snapshot.tasks.map(async (task: any) => {
-                  const { error, ref } = docWrapper(
-                    db,
-                    "users",
-                    userId,
-                    "tasks",
-                    task.id
-                  );
-                  if (error) {
-                    console.error(error);
-                  } else {
-                    const { error } = await updateDocWrapper(ref, task);
-                    if (error) {
-                      console.error(error);
-                    }
-                  }
-                })
-              );
-            });
           }
         }
       } else {

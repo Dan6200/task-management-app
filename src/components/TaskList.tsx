@@ -67,7 +67,7 @@ const TaskList = observer(() => {
           <div className="flex flex-col">
             {loading ? (
               <Button variant="default" className="flex gap-1 animate-pulse">
-                Loading Tasks <LoaderCircle className="w-4 animate-spin" />
+                Loading Tasks <LoaderCircle className="ml-2 w-4 animate-spin" />
               </Button>
             ) : (
               <AddTask />
@@ -113,7 +113,7 @@ const TaskList = observer(() => {
           <div className="flex flex-col mt-4">
             {loading ? (
               <Button variant="default" className="flex gap-1 animate-pulse">
-                Loading Tasks <LoaderCircle className="w-2 animate-spin" />
+                Loading Tasks <LoaderCircle className="ml-2 w-4 animate-spin" />
               </Button>
             ) : (
               <AddTask />

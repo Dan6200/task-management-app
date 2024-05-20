@@ -8,7 +8,7 @@ test("A string containing the user Id", async () => {
   global.fetch = jest.fn(() =>
     Promise.resolve({ json: () => Promise.resolve({ userId: "mock user" }) })
   );
-  const { userId } = await userIdPromise();
+  const { userId } = await userIdPromise;
   expect(typeof userId).toBe("string");
 });
 

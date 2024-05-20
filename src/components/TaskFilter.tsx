@@ -9,7 +9,7 @@ const TaskFilter = ({}: TaskFilterProps) => {
 
   return (
     <div className="shadow-md rounded-sm mb-2">
-      <ul className="flex justify-between text-xs sm:text-base font-medium text-center text-heading/50 border-b-2 bg-accent/50">
+      <ul className="rounded flex justify-between text-xs sm:text-base font-medium text-center text-heading/50 border-b-2 bg-accent/50">
         <Link
           href="/"
           className={`${

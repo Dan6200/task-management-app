@@ -26,7 +26,7 @@ export const TaskModel = types.model("Task", {
   status: types.string,
 });
 
-export const userIdPromise = async () => {
+export const userIdPromise = (async () => {
   try {
     const data = await fetch(process.env.NEXT_PUBLIC_URL + "/user");
     return data.json();
@@ -34,7 +34,7 @@ export const userIdPromise = async () => {
     console.error(error);
     return null;
   }
-};
+})();
 
 export const TaskStore = types
   .model("TaskStore", {
@@ -46,7 +46,7 @@ export const TaskStore = types
         task: SnapshotIn<typeof TaskModel> | Instance<typeof TaskModel>
       ) => {
         self.tasks.push(task);
-        const { userId } = await userIdPromise();
+        const { userId } = await userIdPromise;
         if (userId) {
           const { ref, error } = collectionWrapper(
             db,
@@ -71,7 +71,7 @@ export const TaskStore = types
           task.title = editedTask.title;
           task.description = editedTask.description;
           task.status = editedTask.status;
-          const { userId } = await userIdPromise();
+          const { userId } = await userIdPromise;
           if (userId) {
             const { error, ref } = docWrapper(
               db,
@@ -93,7 +93,7 @@ export const TaskStore = types
         const taskIndex = self.tasks.findIndex((task) => task.id === taskId);
         if (taskIndex !== -1) {
           self.tasks.splice(taskIndex, 1);
-          const { userId } = await userIdPromise();
+          const { userId } = await userIdPromise;
           if (userId) {
             const { error, ref } = docWrapper(
               db,
@@ -123,7 +123,7 @@ let tasksFromLocalStorage: any = [];
 let tasksFromFirestore: any = [];
 
 async function initializeStore() {
-  const { userId } = await userIdPromise();
+  const { userId } = await userIdPromise;
   if (typeof window !== "undefined") {
     if (!userId) {
       const tasksJSON = localStorage.getItem("taskStore");
@@ -167,7 +167,7 @@ async function initializeStore() {
 
   // Save tasks to local storage whenever a change occurs
   // If logged in, save tasks to Firestore under the current user's document whenever a change occurs
-  if (typeof window == "undefined") {
+  if (typeof window !== "undefined") {
     onSnapshot(taskStore, (snapshot: any) => {
       if (userId) {
         Promise.all(
@@ -191,6 +191,7 @@ async function initializeStore() {
         );
       } else {
         localStorage.setItem("taskStore", JSON.stringify(snapshot));
+        console.log(localStorage.getItem("taskStore"));
       }
     });
   }

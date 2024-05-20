@@ -1,3 +1,5 @@
+import "@/styles/globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
 import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -8,14 +10,16 @@ export default function AuthPageLayout({
   children: React.ReactNode;
 }) {
   return (
-    <body className={`bg-primary ${inter.className}`}>
-      <main className="container p-2">
-        <div className="h-fit min-h-screen">
-          <div className="grid place-items-center mt-8 sm:mt-16">
-            {children}
-          </div>
-        </div>
-      </main>
-    </body>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={`bg-primary ${inter.className}`}>
+          <main className="container">
+            <div className="h-screen flex justify-center">
+              <div className="grid place-items-center">{children}</div>
+            </div>
+          </main>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

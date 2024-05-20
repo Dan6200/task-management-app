@@ -19,9 +19,9 @@ const Navbar = () => (
       </ClerkLoading>
       <ClerkLoaded>
         <SignedOut>
-          <Button>
-            <SignInButton />
-          </Button>
+          <SignInButton>
+            <Button className="font-semibold capitalize">sign in</Button>
+          </SignInButton>
         </SignedOut>
         <SignedIn>
           <UserButton />

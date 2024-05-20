@@ -20,7 +20,6 @@ export const StoreProvider = ({ children }: any) => {
     const initializeStore = async () => {
       const { taskStore, updateTaskStoreWithSnapshot } = await storePromise;
       let initialSnapshot: string | null = null;
-      console.log(user);
 
       // Update the taskStore with the initial snapshot
       if (process.browser) {
@@ -52,14 +51,11 @@ export const StoreProvider = ({ children }: any) => {
           }
         } else {
           initialSnapshot = localStorage.getItem("taskStore");
-          console.log("local storage", initialSnapshot);
           if (initialSnapshot) {
             updateTaskStoreWithSnapshot(JSON.parse(initialSnapshot));
           }
-          console.dir(getSnapshot(taskStore));
           // Synchronize the store with local storage
           onSnapshot(taskStore, (snapshot) => {
-            console.log("snapshot", snapshot);
             localStorage.setItem("taskStore", JSON.stringify(snapshot));
           });
         }

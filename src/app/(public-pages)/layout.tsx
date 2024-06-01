@@ -1,4 +1,5 @@
 import { Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 import "@/styles/globals.css";
 import { StoreProvider } from "@/stores/StoreProvider";
 import { ClerkProvider } from "@clerk/nextjs";
@@ -27,6 +28,7 @@ export default function RootLayout({
               <main className="container">{children}</main>
             </StoreProvider>
           </Resizer>
+          <Analytics />
         </body>
       </html>
     </ClerkProvider>
